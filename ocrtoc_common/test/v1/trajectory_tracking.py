@@ -35,8 +35,8 @@ class DesiredTraj:
         self.zt += delta_z
         self.thetat += delta_th
 
-        # traj_t = np.array([self.xt, self.yt, self.zt, 0, 0, 0]) # end effector point upward
-        traj_t = np.array([self.xt, self.yt, self.zt, 0, math.pi, 0]) # end effector point downward
+        traj_t = np.array([self.xt, self.yt, self.zt, 0, 0, 0]) # end effector point upward
+        # traj_t = np.array([self.xt, self.yt, self.zt, 0, math.pi, 0]) # end effector point downward
 
         trajd_t = np.array([0, 0, 0, 0, 0, 0])
         return traj_t, trajd_t
