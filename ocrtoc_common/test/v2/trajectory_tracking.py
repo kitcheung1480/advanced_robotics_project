@@ -128,8 +128,8 @@ class KineControl:
         execute_joint_traj_goal(test)
         '''
         joint_centre = np.mean(joint_limits, axis=1)
-        K = 200 # 300
-        k0 = -100 # 0
+        K = 300 # 200 # 300
+        k0 = 0 # -100 # 0
         for t in np.arange(0, ts, dt).reshape(-1):
             print('=' * 80)
 
