@@ -35,7 +35,7 @@ class DesiredTraj:
         self.zt += delta_z
         self.thetat += delta_th
 
-        traj_t = np.array([self.xt, self.yt, self.zt, 0, math.pi/2, 0])
+        traj_t = np.array([self.xt, self.yt, self.zt, 0, 0, 0])
         trajd_t = np.array([0, 0, 0, 0, 0, 0])
         return traj_t, trajd_t
 
@@ -126,8 +126,8 @@ class KineControl:
         execute_joint_traj_goal(test)
         '''
         joint_centre = np.mean(joint_limits, axis=1)
-        K = 100
-        k0 = -0.1
+        K = 200
+        k0 = -100
         for t in np.arange(0, ts, dt).reshape(-1):
             print('=' * 80)
 
@@ -150,7 +150,7 @@ class KineControl:
             J_inv = pinv(J)
             self.q_dot0 = J_inv @ (K * error + xd_dsr)
             self.joint_vel_list.append(self.q_dot0)
-            # self.q_dot0 += (np.eye(7) - J_inv @ J) @ (k0 * (self.q0 - joint_centre))
+            self.q_dot0 += (np.eye(7) - J_inv @ J) @ (k0 * (self.q0 - joint_centre))
             self.q0 = self.q0 + self.q_dot0 * dt
             
         self.error = np.array(self.error)
@@ -162,7 +162,7 @@ class KineControl:
         # into a 1-dim array [ts/dt * 7, ] by using '.reshape((-1,))'
         joint_goal_lst = self.joint_list.reshape((-1,))
 
-        # execute_joint_traj_goal(joint_goal_lst)
+        execute_joint_traj_goal(joint_goal_lst)
 
     def traj_vis(self):
         """
